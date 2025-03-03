@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import Booking from "@/model/booking";
 import Payment from "@/model/payment";
 
@@ -34,7 +34,7 @@ const processPayment = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // Generate a unique transaction ID
-    const transactionId = uuidv4();
+    const transactionId = '1234';
 
     // Create the payment record
     const payment = await Payment.create({
