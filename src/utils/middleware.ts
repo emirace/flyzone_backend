@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import User from "@/model/user";
@@ -29,6 +30,7 @@ export const authenticateUser = (
 
       return handler(req, res); // Proceed with the original handler
     } catch (error) {
+      console.log(error);
       return res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
   };
@@ -39,10 +41,13 @@ export const isAdmin = async (req: NextApiRequest) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return false;
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+    };
     const user = await User.findById(decoded.id);
     return user && user.role === "admin";
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -54,6 +59,7 @@ const cors = Cors({
 });
 
 // Helper function to run middleware in API routes
+
 function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
