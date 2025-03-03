@@ -4,6 +4,7 @@ import dbConnect from "@/utils/dbConnect";
 import User from "@/model/user";
 import Token from "@/model/token";
 import sendEmail from "@/utils/email";
+import corsMiddleware from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,6 +13,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
+  await corsMiddleware(req, res);
 
   await dbConnect();
 

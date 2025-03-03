@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/utils/dbConnect";
 import User from "@/model/user";
+import corsMiddleware from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,6 +12,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
+  await corsMiddleware(req, res);
 
   await dbConnect();
 
