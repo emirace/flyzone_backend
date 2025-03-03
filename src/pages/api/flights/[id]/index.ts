@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import Flight from "@/model/flight";
-import { isAdmin } from "@/utils/middleware";
+import corsMiddleware, { isAdmin } from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   await dbConnect();
+  await corsMiddleware(req, res);
 
   switch (req.method) {
     case "GET":
