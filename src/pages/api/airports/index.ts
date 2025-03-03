@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import Airport from "@/model/airport";
+import corsMiddleware from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("method ................................", req.method);
+  await corsMiddleware(req, res);
   await dbConnect();
 
   switch (req.method) {
