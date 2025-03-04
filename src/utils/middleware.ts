@@ -13,6 +13,7 @@ export const authenticateUser = (
 ) => {
   return async (req: AuthenticatedRequest, res: NextApiResponse) => {
     try {
+      await corsMiddleware(req, res);
       const authHeader = req.headers.authorization;
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res

@@ -8,15 +8,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await corsMiddleware(req, res);
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
-  await corsMiddleware(req, res);
 
   await dbConnect();
 
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res
@@ -34,8 +34,6 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
-      firstName,
-      lastName,
       email,
       password: hashedPassword,
     });

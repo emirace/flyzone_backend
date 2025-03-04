@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import Booking from "@/model/booking";
+import corsMiddleware from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await corsMiddleware(req, res);
+
   await dbConnect();
 
   switch (req.method) {

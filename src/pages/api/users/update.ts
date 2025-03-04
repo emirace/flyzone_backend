@@ -1,9 +1,14 @@
 import type { NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import User from "@/model/user";
-import { AuthenticatedRequest, authenticateUser } from "@/utils/middleware";
+import corsMiddleware, {
+  AuthenticatedRequest,
+  authenticateUser,
+} from "@/utils/middleware";
 
 const handler = async (req: AuthenticatedRequest, res: NextApiResponse) => {
+  await corsMiddleware(req, res);
+
   if (req.method !== "PUT") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
