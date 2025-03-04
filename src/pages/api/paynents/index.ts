@@ -11,6 +11,8 @@ export default async function handler(
   await dbConnect();
 
   switch (req.method) {
+    case "GET":
+      return getAllPayments(req, res);
     case "POST":
       return processPayment(req, res);
     default:
@@ -34,7 +36,7 @@ const processPayment = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // Generate a unique transaction ID
-    const transactionId = '1234';
+    const transactionId = "1234";
 
     // Create the payment record
     const payment = await Payment.create({
@@ -64,5 +66,15 @@ const processPayment = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Error processing payment", error });
+  }
+};
+
+const getAllPayments = async (_req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const payments = await Payment.find().populate("bookingId userId");
+
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching payments", error });
   }
 };
