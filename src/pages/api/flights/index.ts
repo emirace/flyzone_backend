@@ -23,19 +23,29 @@ export default async function handler(
 
 // GET /flights → Search flights with filters
 const getFlights = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { date, origin, destination } = req.query;
-    const query: any = {};
+  const { date, origin, destination } = req.query;
+  const query: any = {};
 
-    if (date) query.departureTime = { $gte: new Date(date as string) };
-    if (origin) query.origin = origin;
-    if (destination) query.destination = destination;
+  if (date) query.departureTime = { $gte: new Date(date as string) };
+  if (origin) query.origin = origin;
+  if (destination) query.destination = destination;
 
-    const flights = await Flight.find(query).populate("origin destination");
-    res.status(200).json(flights);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
+  const flights = await Flight.find(query).populate("origin destination");
+  res.status(200).json(flights);
+};
+
+// Generate a random flight number (Example: FL1234)
+const generateFlightNumber = () => {
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  return `FL${randomNum}`;
+};
+
+// Calculate flight duration (in minutes)
+const calculateDuration = (departureTime: Date, arrivalTime: Date) => {
+  return Math.round(
+    (new Date(arrivalTime).getTime() - new Date(departureTime).getTime()) /
+      60000
+  );
 };
 
 // POST /flights → Add a new flight (Admin only)
@@ -44,11 +54,18 @@ const addFlight = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(403).json({ message: "Forbidden" });
   }
 
-  try {
-    const flight = new Flight(req.body);
-    await flight.save();
-    res.status(201).json(flight);
-  } catch (error) {
-    res.status(500).json({ message: "Error creating flight", error });
-  }
+  const { departureTime, arrivalTime, ...rest } = req.body;
+
+  const flightData = {
+    ...rest,
+    flightNumber: generateFlightNumber(),
+    duration: calculateDuration(departureTime, arrivalTime),
+    departureTime: new Date(departureTime),
+    arrivalTime: new Date(arrivalTime),
+    availableSeats: Math.floor(100 + Math.random() * 90),
+  };
+
+  const flight = new Flight(flightData);
+  await flight.save();
+  res.status(201).json(flight);
 };
