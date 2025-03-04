@@ -22,8 +22,8 @@ const handler = async (req: AuthenticatedRequest, res: NextApiResponse) => {
     }
 
     const fieldsToUpdate = [
-      "firstName",
-      "lastName",
+      "email",
+      "fullName",
       "image",
       "phone",
       "focus",
