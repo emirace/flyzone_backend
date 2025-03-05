@@ -2,14 +2,21 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import Booking from "@/model/booking";
 import Seat from "@/model/seat";
+import corsMiddleware, { isAdmin } from "@/utils/middleware";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await corsMiddleware(req, res);
   await dbConnect();
 
+  if (!(await isAdmin(req))) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
   switch (req.method) {
+    case "GET":
+      return getBookings(req, res);
     case "POST":
       return createBooking(req, res);
     default:
@@ -49,5 +56,15 @@ const createBooking = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(201).json({ message: "Booking created successfully", booking });
   } catch (error) {
     res.status(500).json({ message: "Error creating booking", error });
+  }
+};
+
+const getBookings = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const bookings = await Booking.find().populate("flightId userId seatId");
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching bookings", error });
   }
 };

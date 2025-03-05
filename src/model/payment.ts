@@ -5,7 +5,7 @@ export interface IPayment extends Document {
   userId: mongoose.Schema.Types.ObjectId;
   amount: number;
   currency: string;
-  paymentMethod: "credit_card" | "paypal" | "bank_transfer";
+  paymentMethod: "credit_card" | "crypto" | "bank_transfer";
   transactionId: string;
   status: "pending" | "successful" | "failed" | "refunded";
   createdAt: Date;
@@ -20,7 +20,7 @@ const PaymentSchema = new Schema<IPayment>(
     currency: { type: String, required: true },
     paymentMethod: {
       type: String,
-      enum: ["credit_card", "paypal", "bank_transfer"],
+      enum: ["credit_card", "crypto", "bank_transfer"],
       required: true,
     },
     transactionId: { type: String, unique: true, required: true },

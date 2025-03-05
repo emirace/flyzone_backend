@@ -3,9 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface ISeat extends Document {
   flightId: mongoose.Schema.Types.ObjectId;
   seatNumber: string;
-  class: "economy" | "business" | "first";
-  price: number;
-  isBooked: boolean;
+  class: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,11 +14,8 @@ const SeatSchema = new Schema<ISeat>(
     seatNumber: { type: String, required: true },
     class: {
       type: String,
-      enum: ["economy", "business", "first"],
       required: true,
     },
-    price: { type: Number, required: true },
-    isBooked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

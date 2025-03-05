@@ -25,12 +25,13 @@ export default async function handler(
 // GET /flights/:id → Get flight details
 const getFlightById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const flight = await Flight.findById(req.query.id).populate(
-      "origin destination"
-    );
+    const flight = await Flight.findById(req.query.id)
+      .populate("origin")
+      .populate("destination");
     if (!flight) return res.status(404).json({ message: "Flight not found" });
     res.status(200).json(flight);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Error fetching flight details", error });
   }
 };

@@ -1,12 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import Booking from "@/model/booking";
-import corsMiddleware from "@/utils/middleware";
+import corsMiddleware, {
+  AuthenticatedRequest,
+  authenticateUser,
+} from "@/utils/middleware";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
 
   await dbConnect();
@@ -20,18 +20,19 @@ export default async function handler(
 }
 
 // GET /api/bookings/user/:userId → Get all bookings of a user
-const getUserBookings = async (req: NextApiRequest, res: NextApiResponse) => {
+const getUserBookings = async (
+  req: AuthenticatedRequest,
+  res: NextApiResponse
+) => {
   try {
-    const { userId } = req.query;
+    const userId = req.user!.id;
     const bookings = await Booking.find({ userId }).populate("flightId seatId");
-
-    if (!bookings.length)
-      return res
-        .status(404)
-        .json({ message: "No bookings found for this user" });
 
     res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ message: "Error fetching user bookings", error });
+    console.log(error);
   }
 };
+
+export default authenticateUser(handler);

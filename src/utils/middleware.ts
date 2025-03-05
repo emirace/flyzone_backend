@@ -46,7 +46,7 @@ export const isAdmin = async (req: NextApiRequest) => {
       id: string;
     };
     const user = await User.findById(decoded.id);
-    console.log(user)
+    console.log(user);
     return user && user.role === "Admin";
   } catch (error) {
     console.log(error);
