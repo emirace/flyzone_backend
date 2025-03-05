@@ -26,7 +26,9 @@ const getUserBookings = async (
 ) => {
   try {
     const userId = req.user!.id;
-    const bookings = await Booking.find({ userId }).populate("flightId seatId");
+    const bookings = await Booking.find({ userId })
+      .populate("flightId")
+      .populate("seatId");
 
     res.status(200).json(bookings);
   } catch (error) {
