@@ -10,6 +10,7 @@ import corsMiddleware, {
 } from "@/utils/middleware";
 import Seat from "@/model/seat";
 import mongoose from "mongoose";
+import sendEmail from "@/utils/email";
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
@@ -39,6 +40,7 @@ const processPayment = async (
       classType,
       amount,
       currency,
+      confirmEmail,
       paymentMethod,
       travellers,
     } = req.body;
@@ -97,7 +99,8 @@ const processPayment = async (
             bookingId,
             class: classType,
             flightId,
-            seatId: seats.map((s) => s._id), // Store all seat IDs
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            seatId: seats.map((s: { _id: any }) => s._id), // Store all seat IDs
             status: "pending",
             paymentStatus: "pending",
             travellers,
@@ -120,6 +123,7 @@ const processPayment = async (
             paymentMethod,
             transactionId,
             status: "pending",
+            confirmEmail,
           },
         ],
         { session }
