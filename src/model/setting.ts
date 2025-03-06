@@ -12,6 +12,10 @@ interface ISetting extends Document {
     address: string;
     rating: number;
   };
+  mail: {
+    name: string;
+    password: string;
+  };
 }
 
 const SettingSchema = new Schema<ISetting>({
@@ -25,6 +29,10 @@ const SettingSchema = new Schema<ISetting>({
     network: { type: String, required: true },
     address: { type: String, required: true },
     rate: { type: Number, required: true },
+  },
+  mail: {
+    name: { type: String, required: true },
+    password: { type: String, required: true },
   },
 });
 

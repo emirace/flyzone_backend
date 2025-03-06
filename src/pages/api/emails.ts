@@ -1,3 +1,4 @@
+import Setting from "@/model/setting";
 import dbConnect from "@/utils/dbConnect";
 import sendEmail from "@/utils/email";
 import corsMiddleware from "@/utils/middleware";
@@ -19,14 +20,25 @@ export default async function handler(
           .status(200)
           .json({ message: "Receipient and Message info are required" });
       }
+
+      const settings = await Setting.findOne();
+
       if (to === "self") {
         await sendEmail({
-          to: process.env.EMAIL_USER || "",
+          to: settings.mail.name || "",
           subject,
           text: message,
+          name: settings.mail.name,
+          password: settings.mail.password,
         });
       } else {
-        await sendEmail({ to, subject, text: message });
+        await sendEmail({
+          to,
+          subject,
+          text: message,
+          name: settings.mail.name,
+          password: settings.mail.password,
+        });
       }
 
       return res.status(200).json({ message: "Email sent successfully" });

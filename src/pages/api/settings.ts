@@ -28,6 +28,10 @@ export default async function handler(
             address: "1BitcoinAddressExample123",
             rate: 1,
           },
+          mail: {
+            name: "example@gmail.com",
+            password: "1234567890",
+          },
         });
       }
       return res.status(200).json(settings);
