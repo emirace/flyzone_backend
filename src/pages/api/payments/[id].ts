@@ -4,7 +4,6 @@ import Payment from "@/model/payment";
 import corsMiddleware from "@/utils/middleware";
 import Booking from "@/model/booking";
 import sendEmail from "@/utils/email";
-import mongoose from "mongoose";
 
 export default async function handler(
   req: NextApiRequest,
