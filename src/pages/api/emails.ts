@@ -1,7 +1,6 @@
-import Setting from "@/model/setting";
 import dbConnect from "@/utils/dbConnect";
 import sendEmail from "@/utils/email";
-import corsMiddleware, { isAdmin } from "@/utils/middleware";
+import corsMiddleware from "@/utils/middleware";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

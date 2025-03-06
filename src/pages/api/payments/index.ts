@@ -10,7 +10,6 @@ import corsMiddleware, {
 } from "@/utils/middleware";
 import Seat from "@/model/seat";
 import mongoose from "mongoose";
-import sendEmail from "@/utils/email";
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
