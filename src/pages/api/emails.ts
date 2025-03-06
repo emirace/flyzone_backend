@@ -20,7 +20,11 @@ export default async function handler(
           .json({ message: "Receipient and Message info are required" });
       }
       if (to === "self") {
-        await sendEmail({ to: process.env.EMAIL_USER, subject, text: message });
+        await sendEmail({
+          to: process.env.EMAIL_USER || "",
+          subject,
+          text: message,
+        });
       } else {
         await sendEmail({ to, subject, text: message });
       }
