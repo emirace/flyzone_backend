@@ -45,17 +45,13 @@ const updatePaymentStatus = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
+  
   try {
     const { id } = req.query;
     const { status, reason } = req.body;
 
     if (!status) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ message: "Payment status is required" });
+        return res.status(400).json({ message: "Payment status is required" });
     }
 
     // Update the payment status
@@ -66,18 +62,14 @@ const updatePaymentStatus = async (
     ).populate("userId");
 
     if (!payment) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(404).json({ message: "Payment not found" });
+     return res.status(404).json({ message: "Payment not found" });
     }
 
     // Get the booking ID from the payment record
     const bookingId = payment.bookingId;
 
     if (!bookingId) {
-      await session.abortTransaction();
-      session.endSession();
-      return res
+       return res
         .status(400)
         .json({ message: "Booking ID not found in payment" });
     }
@@ -92,15 +84,11 @@ const updatePaymentStatus = async (
     ).populate("flightId", "destination origin");
 
     if (!booking) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(404).json({ message: "Booking not found" });
+       return res.status(404).json({ message: "Booking not found" });
     }
 
     // Commit the transaction
-    await session.commitTransaction();
-    session.endSession();
-
+    
     // Prepare email details
     let text = "";
     if (status === "successful") {
@@ -145,9 +133,7 @@ const updatePaymentStatus = async (
       .status(200)
       .json({ message: "Payment status updated", payment, booking });
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    console.error("Error updating payment status:", error);
+     console.error("Error updating payment status:", error);
     res.status(500).json({ message: "Error updating payment status", error });
   }
 };
