@@ -154,7 +154,7 @@ const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const payments = await Payment.find()
       .populate("userId")
-      .populate("bookingId", "flightId");
+      .populate({ path: "bookingId", populate: { path: "flightId" } });
 
     res.status(200).json(payments);
   } catch (error) {
