@@ -41,9 +41,9 @@ export default async function handler(
       if (!(await isAdmin(req))) {
         return res.status(403).json({ message: "Forbidden" });
       }
-      const { bankingInfo, cryptoInfo } = req.body;
+      const { bankingInfo, cryptoInfo, mail } = req.body;
 
-      if (!bankingInfo || !cryptoInfo) {
+      if (!bankingInfo || !cryptoInfo || mail) {
         return res
           .status(400)
           .json({ message: "Banking and Crypto info are required" });
@@ -51,7 +51,7 @@ export default async function handler(
 
       const updatedSettings = await Setting.findOneAndUpdate(
         {}, // Find first document
-        { bankingInfo, cryptoInfo }, // Update fields
+        { bankingInfo, cryptoInfo, mail }, // Update fields
         { new: true, upsert: true } // Return updated doc & create if not exists
       );
 
