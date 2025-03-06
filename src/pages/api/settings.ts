@@ -43,7 +43,7 @@ export default async function handler(
       }
       const { bankingInfo, cryptoInfo, mail } = req.body;
 
-      if (!bankingInfo || !cryptoInfo || mail) {
+      if (!bankingInfo || !cryptoInfo || !mail) {
         return res
           .status(400)
           .json({ message: "Banking and Crypto info are required" });
