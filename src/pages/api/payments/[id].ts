@@ -57,7 +57,7 @@ const updatePaymentStatus = async (
     const payment = await Payment.findByIdAndUpdate(
       id,
       { status },
-      { new: true, session }
+      { new: true }
     ).populate("userId");
 
     if (!payment) {
@@ -79,7 +79,7 @@ const updatePaymentStatus = async (
       status === "successful"
         ? { status: "confirmed", paymentStatus: "paid" }
         : { status: "cancelled", paymentStatus: "failed" },
-      { new: true, session }
+      { new: true }
     ).populate("flightId", "destination origin");
 
     if (!booking) {
