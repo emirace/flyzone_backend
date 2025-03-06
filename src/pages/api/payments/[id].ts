@@ -44,13 +44,12 @@ const updatePaymentStatus = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  
   try {
     const { id } = req.query;
     const { status, reason } = req.body;
 
     if (!status) {
-        return res.status(400).json({ message: "Payment status is required" });
+      return res.status(400).json({ message: "Payment status is required" });
     }
 
     // Update the payment status
@@ -61,14 +60,14 @@ const updatePaymentStatus = async (
     ).populate("userId");
 
     if (!payment) {
-     return res.status(404).json({ message: "Payment not found" });
+      return res.status(404).json({ message: "Payment not found" });
     }
 
     // Get the booking ID from the payment record
     const bookingId = payment.bookingId;
 
     if (!bookingId) {
-       return res
+      return res
         .status(400)
         .json({ message: "Booking ID not found in payment" });
     }
@@ -80,14 +79,14 @@ const updatePaymentStatus = async (
         ? { status: "confirmed", paymentStatus: "paid" }
         : { status: "cancelled", paymentStatus: "failed" },
       { new: true }
-    ).populate("flightId", "destination origin");
+    );
 
     if (!booking) {
-       return res.status(404).json({ message: "Booking not found" });
+      return res.status(404).json({ message: "Booking not found" });
     }
 
     // Commit the transaction
-    
+
     // Prepare email details
     let text = "";
     if (status === "successful") {
@@ -132,7 +131,7 @@ const updatePaymentStatus = async (
       .status(200)
       .json({ message: "Payment status updated", payment, booking });
   } catch (error) {
-     console.error("Error updating payment status:", error);
+    console.error("Error updating payment status:", error);
     res.status(500).json({ message: "Error updating payment status", error });
   }
 };

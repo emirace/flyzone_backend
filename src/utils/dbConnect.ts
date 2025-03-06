@@ -9,10 +9,12 @@ if (!MONGO_URI) {
 }
 
 async function dbConnect() {
-  
+  try {
     await mongoose.connect(MONGO_URI);
     console.log("db  connected");
-  
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default dbConnect;

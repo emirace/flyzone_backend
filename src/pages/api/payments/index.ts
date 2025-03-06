@@ -152,7 +152,9 @@ const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!(await isAdmin(req))) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    const payments = await Payment.find().populate("bookingId userId");
+    const payments = await Payment.find()
+      .populate("userId")
+      .populate("bookingId", "flightId");
 
     res.status(200).json(payments);
   } catch (error) {
