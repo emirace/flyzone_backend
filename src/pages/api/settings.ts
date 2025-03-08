@@ -22,12 +22,12 @@ export default async function handler(
             accountName: "Default Account",
             bankName: "Default Bank",
           },
-          cryptoInfo: {
+          cryptoInfo: [{
             name: "Bitcoin",
             network: "BTC",
             address: "1BitcoinAddressExample123",
             rate: 1,
-          },
+          }],
           mail: {
             name: "example@gmail.com",
             password: "1234567890",

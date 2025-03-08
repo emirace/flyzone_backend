@@ -11,7 +11,7 @@ interface ISetting extends Document {
     network: string;
     address: string;
     rating: number;
-  };
+  }[];
   mail: {
     name: string;
     password: string;
@@ -24,12 +24,14 @@ const SettingSchema = new Schema<ISetting>({
     accountName: { type: String, required: true },
     bankName: { type: String, required: true },
   },
-  cryptoInfo: {
-    name: { type: String, required: true },
-    network: { type: String, required: true },
-    address: { type: String, required: true },
-    rate: { type: Number, required: true },
-  },
+  cryptoInfo: [
+    {
+      name: { type: String, required: true },
+      network: { type: String, required: true },
+      address: { type: String, required: true },
+      rate: { type: Number, required: true },
+    },
+  ],
   mail: {
     name: { type: String, required: true },
     password: { type: String, required: true },
