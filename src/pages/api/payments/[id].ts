@@ -88,7 +88,7 @@ const updatePaymentStatus = async (
 
     await axios.post(
       "https://chat-backend-h2eq.onrender.com/api/payments",
-      { id: payment._id },
+      { id: payment._id, status},
       { headers: { Authorization: req.headers.authorization } }
     );
 
