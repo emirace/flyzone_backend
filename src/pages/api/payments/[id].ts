@@ -4,6 +4,7 @@ import Payment from "@/model/payment";
 import corsMiddleware from "@/utils/middleware";
 import Booking from "@/model/booking";
 import sendEmail from "@/utils/email";
+import axios from "axios";
 
 export default async function handler(
   req: NextApiRequest,
@@ -85,7 +86,11 @@ const updatePaymentStatus = async (
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    // Commit the transaction
+    await axios.post(
+      "https://chat-backend-h2eq.onrender.com/payments",
+      { id: payment._id },
+      { headers: { Authorization: req.headers.authorization } }
+    );
 
     // Prepare email details
     let text = "";

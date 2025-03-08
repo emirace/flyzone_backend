@@ -61,7 +61,9 @@ const createBooking = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getBookings = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const bookings = await Booking.find().populate("flightId userId seatId");
+    const bookings = await Booking.find()
+      .populate("flightId userId seatId")
+      .sort({ createdAt: -1 });
 
     res.status(200).json(bookings);
   } catch (error) {
