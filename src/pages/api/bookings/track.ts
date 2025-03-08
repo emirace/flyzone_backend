@@ -26,9 +26,14 @@ const getTrackBooking = async (
 ) => {
   try {
     const { bookingId } = req.body;
-    const booking = await Booking.find({ bookingId })
+    const booking = await Booking.findOne({ bookingId })
       .populate("flightId")
       .populate("seatId");
+
+    if (!booking) {
+      res.status(404).json("Booking not found");
+      return;
+    }
 
     res.status(200).json(booking);
   } catch (error) {
