@@ -28,8 +28,11 @@ export default async function handler(
 const getBookingById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    const booking = await Booking.findById(id)
-      .populate("flightId ")
+    const booking = await Booking.findOne({ id })
+      .populate({
+        path: "flightId",
+        populate: [{ path: "destination" }, { path: "origin" }],
+      })
       .populate("seatId")
       .populate("userId");
 

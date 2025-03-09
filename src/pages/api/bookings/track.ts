@@ -27,7 +27,10 @@ const getTrackBooking = async (
   try {
     const { bookingId } = req.body;
     const booking = await Booking.findOne({ bookingId })
-      .populate("flightId")
+      .populate({
+        path: "flightId",
+        populate: [{ path: "destination" }, { path: "origin" }],
+      })
       .populate("seatId");
 
     if (!booking) {
