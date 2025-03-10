@@ -37,6 +37,8 @@ const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
     ) as unknown as {
       id: string;
     };
+
+    console.log(decoded);
     const payment = await Payment.findById(decoded.id)
       .populate({
         path: "bookingId",

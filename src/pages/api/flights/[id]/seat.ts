@@ -24,7 +24,7 @@ const getAvailableSeats = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { flightId } = req.query;
 
-    const seats = await Seat.find({ flightId, isBooked: false }).sort({
+    const seats = await Seat.find({ flightId }).sort({
       seatNumber: 1,
     });
 
