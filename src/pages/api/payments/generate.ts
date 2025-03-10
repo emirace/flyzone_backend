@@ -2,7 +2,7 @@ import type { NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import { v4 as uuidv4 } from "uuid";
 import Booking from "@/model/booking";
-import Payment from "@/model/payment";
+import Payment, { IPayment } from "@/model/payment";
 import corsMiddleware, {
   AuthenticatedRequest,
   authenticateUser,
@@ -110,7 +110,7 @@ const generatePaymentLink = async (
       const transactionId = uuidv4();
 
       // Create a single payment record for all seats booked
-      const payment = await Payment.create(
+      const payment: IPayment = await Payment.create(
         [
           {
             bookingId: booking[0]._id,
