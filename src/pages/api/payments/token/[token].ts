@@ -26,6 +26,11 @@ const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { token } = req.query;
 
+    if (!token) {
+      res.status(400).json("Token is required");
+      return;
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
       id: string;
     };
@@ -54,6 +59,11 @@ const updatePaymentStatus = async (
 ) => {
   try {
     const { token } = req.query;
+
+    if (!token) {
+      res.status(400).json("Token is required");
+      return;
+    }
 
     const { id } = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
       id: string;
