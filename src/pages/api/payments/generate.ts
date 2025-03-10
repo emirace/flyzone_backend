@@ -112,22 +112,23 @@ const generatePaymentLink = async (
 
       // Create a single payment record for all seats booked
       const payment: any = await Payment.create(
-        {
-          bookingId: booking[0]._id,
-          userId,
-          amount,
-          currency,
-          paymentMethod,
-          transactionId,
-          status: "pending",
-          confirmEmail,
-        },
-
+        [
+          {
+            bookingId: booking[0]._id,
+            userId,
+            amount,
+            currency,
+            paymentMethod,
+            transactionId,
+            status: "pending",
+            confirmEmail,
+          },
+        ],
         { session }
       );
       console.log(payment);
       const token = jwt.sign(
-        { id: payment._id },
+        { id: payment[0]._id },
         process.env.JWT_SECRET as string,
         {
           expiresIn: "7d",
