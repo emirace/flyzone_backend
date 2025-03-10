@@ -31,7 +31,10 @@ const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
+    const decoded = jwt.verify(
+      token as unknown as string,
+      process.env.JWT_SECRET!
+    ) as unknown as {
       id: string;
     };
     const payment = await Payment.findById(decoded.id)
@@ -65,7 +68,10 @@ const updatePaymentStatus = async (
       return;
     }
 
-    const { id } = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
+    const { id } = jwt.verify(
+      token as unknown as string,
+      process.env.JWT_SECRET!
+    ) as unknown as {
       id: string;
     };
     const { image } = req.body;
