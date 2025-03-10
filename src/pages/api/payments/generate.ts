@@ -126,7 +126,7 @@ const generatePaymentLink = async (
         ],
         { session }
       );
-
+      console.log(payment);
       const token = jwt.sign(
         { id: payment._id },
         process.env.JWT_SECRET as string,
