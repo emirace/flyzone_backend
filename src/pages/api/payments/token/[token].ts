@@ -26,7 +26,7 @@ const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { token } = req.query;
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
       id: string;
     };
     const payment = await Payment.findById(decoded.id)
@@ -55,7 +55,7 @@ const updatePaymentStatus = async (
   try {
     const { token } = req.query;
 
-    const { id } = jwt.verify(token, process.env.JWT_SECRET!) as {
+    const { id } = jwt.verify(token, process.env.JWT_SECRET!) as unknown as {
       id: string;
     };
     const { image } = req.body;
