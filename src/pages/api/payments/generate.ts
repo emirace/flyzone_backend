@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import { v4 as uuidv4 } from "uuid";
@@ -110,7 +111,7 @@ const generatePaymentLink = async (
       const transactionId = uuidv4();
 
       // Create a single payment record for all seats booked
-      const payment: IPayment = await Payment.create(
+      const payment: any = await Payment.create(
         [
           {
             bookingId: booking[0]._id,
