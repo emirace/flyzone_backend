@@ -112,18 +112,17 @@ const generatePaymentLink = async (
 
       // Create a single payment record for all seats booked
       const payment: any = await Payment.create(
-        [
-          {
-            bookingId: booking[0]._id,
-            userId,
-            amount,
-            currency,
-            paymentMethod,
-            transactionId,
-            status: "pending",
-            confirmEmail,
-          },
-        ],
+        {
+          bookingId: booking[0]._id,
+          userId,
+          amount,
+          currency,
+          paymentMethod,
+          transactionId,
+          status: "pending",
+          confirmEmail,
+        },
+
         { session }
       );
       console.log(payment);
