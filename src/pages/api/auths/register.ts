@@ -16,12 +16,10 @@ export default async function handler(
   await dbConnect();
 
   try {
-    const { email, password } = req.body;
+    const { fullName, email, password } = req.body;
 
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+    if (!email || !password || !fullName) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     const userExists = await User.findOne({ email });
@@ -34,6 +32,7 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
+      fullName,
       email,
       password: hashedPassword,
     });
