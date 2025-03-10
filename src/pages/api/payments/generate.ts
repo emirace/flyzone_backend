@@ -127,10 +127,6 @@ const generatePaymentLink = async (
         { session }
       );
 
-      // Commit the transaction
-      await session.commitTransaction();
-      session.endSession();
-
       const token = jwt.sign(
         { id: payment._id },
         process.env.JWT_SECRET as string,
@@ -140,6 +136,10 @@ const generatePaymentLink = async (
       );
 
       const link = `https://flyzoneairlines.com/payment/${token}`;
+
+      // Commit the transaction
+      await session.commitTransaction();
+      session.endSession();
 
       return res.status(201).json(link);
     } catch (error) {

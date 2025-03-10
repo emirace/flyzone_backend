@@ -22,9 +22,9 @@ export default async function handler(
 // GET /flights/:flightId/seats → Get available seats for a flight
 const getAvailableSeats = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { flightId } = req.query;
-
-    const seats = await Seat.find({ flightId }).sort({
+    const { id } = req.query;
+    console.log(id);
+    const seats = await Seat.find({ id }).sort({
       seatNumber: 1,
     });
 
