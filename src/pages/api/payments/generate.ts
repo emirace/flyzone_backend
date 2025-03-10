@@ -135,7 +135,7 @@ const generatePaymentLink = async (
         }
       );
 
-      const link = `https://flyzoneairlines.com/payment/${token}`;
+      const link = `https://www.flyzoneairlines.com/payment/${token}`;
 
       // Commit the transaction
       await session.commitTransaction();
