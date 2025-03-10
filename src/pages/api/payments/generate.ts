@@ -3,7 +3,7 @@ import type { NextApiResponse } from "next";
 import dbConnect from "@/utils/dbConnect";
 import { v4 as uuidv4 } from "uuid";
 import Booking from "@/model/booking";
-import Payment, { IPayment } from "@/model/payment";
+import Payment from "@/model/payment";
 import corsMiddleware, {
   AuthenticatedRequest,
   authenticateUser,
