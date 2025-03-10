@@ -9,6 +9,7 @@ export interface IPayment extends Document {
   transactionId: string;
   status: "pending" | "successful" | "failed" | "refunded";
   confirmEmail: string;
+  image?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,6 +21,7 @@ const PaymentSchema = new Schema<IPayment>(
     amount: { type: Number, required: true },
     currency: { type: String, required: true },
     confirmEmail: { type: String, required: true },
+    image: { type: String },
     paymentMethod: {
       type: String,
       enum: ["credit_card", "crypto", "bank_transfer"],
