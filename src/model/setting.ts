@@ -5,6 +5,8 @@ interface ISetting extends Document {
     accountNumber: string;
     accountName: string;
     bankName: string;
+    routing: string;
+    address: string;
   };
   cryptoInfo: {
     name: string;

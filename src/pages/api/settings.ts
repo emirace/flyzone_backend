@@ -24,13 +24,6 @@ export default async function handler(
             routing: "rout12345",
             address: "sample address",
           },
-          mobileInfo: {
-            accountNumber: "000000000",
-            accountName: "Default Account",
-            bankName: "Default Bank",
-            routing: "rout12345",
-            address: "sample address",
-          },
           cryptoInfo: [
             {
               name: "Bitcoin",
