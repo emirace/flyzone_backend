@@ -21,13 +21,24 @@ export default async function handler(
             accountNumber: "000000000",
             accountName: "Default Account",
             bankName: "Default Bank",
+            routing: "rout12345",
+            address: "sample address",
           },
-          cryptoInfo: [{
-            name: "Bitcoin",
-            network: "BTC",
-            address: "1BitcoinAddressExample123",
-            rate: 1,
-          }],
+          mobileInfo: {
+            accountNumber: "000000000",
+            accountName: "Default Account",
+            bankName: "Default Bank",
+            routing: "rout12345",
+            address: "sample address",
+          },
+          cryptoInfo: [
+            {
+              name: "Bitcoin",
+              network: "BTC",
+              address: "1BitcoinAddressExample123",
+              rate: 1,
+            },
+          ],
           mail: {
             name: "example@gmail.com",
             password: "1234567890",
@@ -41,9 +52,9 @@ export default async function handler(
       if (!(await isAdmin(req))) {
         return res.status(403).json({ message: "Forbidden" });
       }
-      const { bankingInfo, cryptoInfo, mail } = req.body;
+      const { mobileInfo, bankingInfo, cryptoInfo, mail } = req.body;
 
-      if (!bankingInfo || !cryptoInfo || !mail) {
+      if (!mobileInfo || !bankingInfo || !cryptoInfo || !mail) {
         return res
           .status(400)
           .json({ message: "Banking and Crypto info are required" });
@@ -51,7 +62,7 @@ export default async function handler(
 
       const updatedSettings = await Setting.findOneAndUpdate(
         {}, // Find first document
-        { bankingInfo, cryptoInfo, mail }, // Update fields
+        { mobileInfo, bankingInfo, cryptoInfo, mail }, // Update fields
         { new: true, upsert: true } // Return updated doc & create if not exists
       );
 

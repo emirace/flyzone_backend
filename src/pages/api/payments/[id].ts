@@ -28,7 +28,13 @@ const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
     const payment = await Payment.findById(id)
-      .populate("bookingId")
+      .populate({
+        path: "bookingId",
+        populate: {
+          path: "flightId",
+          populate: [{ path: "destination" }, { path: "origin" }],
+        },
+      })
       .populate("userId");
 
     if (!payment) return res.status(404).json({ message: "Payment not found" });
@@ -88,7 +94,7 @@ const updatePaymentStatus = async (
 
     await axios.post(
       "https://chat-backend-h2eq.onrender.com/api/payments",
-      { id: payment._id, status},
+      { id: payment._id, status },
       { headers: { Authorization: req.headers.authorization } }
     );
 
