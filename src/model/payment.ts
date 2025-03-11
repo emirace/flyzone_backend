@@ -5,7 +5,7 @@ export interface IPayment extends Document {
   userId: mongoose.Schema.Types.ObjectId;
   amount: number;
   currency: string;
-  paymentMethod: "credit_card" | "crypto" | "bank_transfer";
+  paymentMethod: "credit_card" | "crypto" | "bank_transfer" | "cashApp";
   transactionId: string;
   status: "pending" | "successful" | "failed" | "refunded";
   confirmEmail: string;
