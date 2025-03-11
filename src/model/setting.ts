@@ -28,14 +28,6 @@ const SettingSchema = new Schema<ISetting>({
     routing: { type: String, required: true },
     address: { type: String, required: true },
   },
-
-  mobileInfo: {
-    accountNumber: { type: String, required: true },
-    accountName: { type: String, required: true },
-    bankName: { type: String, required: true },
-    routing: { type: String, required: true },
-    address: { type: String, required: true },
-  },
   cryptoInfo: [
     {
       name: { type: String, required: true },
