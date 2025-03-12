@@ -5,6 +5,8 @@ import corsMiddleware, {
   AuthenticatedRequest,
   authenticateUser,
 } from "@/utils/middleware";
+import Flight from "@/model/flight";
+import Airport from "@/model/airport";
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
@@ -26,9 +28,15 @@ const getUserBookings = async (
 ) => {
   try {
     const userId = req.user!.id;
+    await Flight.find();
+    await Airport.find();
     const bookings = await Booking.find({ userId })
-      .populate("flightId")
-      .populate("seatId");
+      .populate({
+        path: "flightId",
+        populate: [{ path: "destination" }, { path: "origin" }],
+      })
+      .populate("seatId")
+      .populate("userId");
 
     res.status(200).json(bookings);
   } catch (error) {

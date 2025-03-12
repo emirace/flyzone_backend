@@ -3,6 +3,8 @@ import dbConnect from "@/utils/dbConnect";
 import Booking from "@/model/booking";
 import Seat from "@/model/seat";
 import corsMiddleware, { isAdmin } from "@/utils/middleware";
+import Flight from "@/model/flight";
+import Airport from "@/model/airport";
 
 export default async function handler(
   req: NextApiRequest,
@@ -61,6 +63,8 @@ const createBooking = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getBookings = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    await Flight.find();
+    await Airport.find();
     const bookings = await Booking.find()
       .populate("flightId userId seatId")
       .sort({ createdAt: -1 });

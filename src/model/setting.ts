@@ -14,7 +14,7 @@ interface ISetting extends Document {
     address: string;
     rating: number;
   }[];
-  cashApp: { tag: string };
+  cashApp: { tag: string; name: string };
   mail: {
     name: string;
     password: string;
@@ -43,6 +43,7 @@ const SettingSchema = new Schema<ISetting>({
   },
   cashApp: {
     tag: { type: String },
+    name: { type: String },
   },
 });
 
