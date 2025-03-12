@@ -10,6 +10,8 @@ import corsMiddleware, {
 } from "@/utils/middleware";
 import Seat from "@/model/seat";
 import mongoose from "mongoose";
+import Flight from "@/model/flight";
+import Airport from "@/model/airport";
 
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
@@ -152,6 +154,8 @@ const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!(await isAdmin(req))) {
       return res.status(403).json({ message: "Forbidden" });
     }
+    await Flight.find();
+    await Airport.find();
     const payments = await Payment.find()
       .populate("userId")
       .populate({ path: "bookingId", populate: { path: "flightId" } });

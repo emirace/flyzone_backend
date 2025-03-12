@@ -4,6 +4,8 @@ import Payment from "@/model/payment";
 import corsMiddleware from "@/utils/middleware";
 import Booking from "@/model/booking";
 import sendEmail from "@/utils/email";
+import Flight from "@/model/flight";
+import Airport from "@/model/airport";
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,6 +28,8 @@ export default async function handler(
 const getPaymentById = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
+    await Flight.find();
+    await Airport.find();
     const payment = await Payment.findById(id)
       .populate({
         path: "bookingId",
