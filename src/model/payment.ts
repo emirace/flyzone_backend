@@ -24,7 +24,7 @@ const PaymentSchema = new Schema<IPayment>(
     image: { type: String },
     paymentMethod: {
       type: String,
-      enum: ["credit_card", "crypto", "bank_transfer"],
+      enum: ["credit_card", "crypto", "bank_transfer", "cashApp"],
       required: true,
     },
     transactionId: { type: String, unique: true, required: true },
