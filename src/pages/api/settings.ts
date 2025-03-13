@@ -40,6 +40,7 @@ export default async function handler(
             tag: "cashAppTag",
             name: "cashAppTag",
           },
+          whatsApp: "whatsapp",
         });
       }
       return res.status(200).json(settings);
@@ -49,7 +50,7 @@ export default async function handler(
       if (!(await isAdmin(req))) {
         return res.status(403).json({ message: "Forbidden" });
       }
-      const { bankingInfo, cryptoInfo, mail, cashApp } = req.body;
+      const { bankingInfo, cryptoInfo, mail, cashApp, whatsApp } = req.body;
 
       if (!bankingInfo || !cryptoInfo || !mail || !cashApp) {
         return res
@@ -59,7 +60,7 @@ export default async function handler(
 
       const updatedSettings = await Setting.findOneAndUpdate(
         {}, // Find first document
-        { bankingInfo, cryptoInfo, mail, cashApp }, // Update fields
+        { bankingInfo, cryptoInfo, mail, cashApp, whatsApp }, // Update fields
         { new: true, upsert: true } // Return updated doc & create if not exists
       );
 

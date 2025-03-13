@@ -19,6 +19,7 @@ interface ISetting extends Document {
     name: string;
     password: string;
   };
+  whatsApp: string;
 }
 
 const SettingSchema = new Schema<ISetting>({
@@ -45,6 +46,7 @@ const SettingSchema = new Schema<ISetting>({
     tag: { type: String },
     name: { type: String },
   },
+  whatsApp: { type: String },
 });
 
 const Setting =
